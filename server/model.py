@@ -3,13 +3,13 @@ import pickle
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Embedding, GlobalAveragePooling1D
+from tensorflow.keras.layers import Dense, Embedding, GlobalAveragePooling1D, Dropout
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from sklearn.preprocessing import LabelEncoder
 
 # Load intents.json file
-with open('intents.json', encoding='utf-8') as file:  # Specify encoding to avoid UnicodeDecodeError
+with open('intents.json', encoding='utf-8') as file:
     data = json.load(file)
 
 # Extract data from intents.json
@@ -35,8 +35,8 @@ lbl_encoder.fit(training_labels)
 training_labels = lbl_encoder.transform(training_labels)
 
 # Text preprocessing
-vocab_size = 1000
-embedding_dim = 16
+vocab_size = 2000  # Increased vocab_size
+embedding_dim = 32  # Increased embedding_dim
 oov_token = "<OOV>"
 
 tokenizer = Tokenizer(num_words=vocab_size, oov_token=oov_token)
@@ -49,14 +49,17 @@ padded_sequences = pad_sequences(sequences, truncating='post')
 model = Sequential()
 model.add(Embedding(vocab_size, embedding_dim))
 model.add(GlobalAveragePooling1D())
-model.add(Dense(16, activation='relu'))
-model.add(Dense(16, activation='relu'))
+model.add(Dense(32, activation='relu'))  # Increased neurons
+model.add(Dropout(0.5))  # Added dropout to prevent overfitting
+model.add(Dense(32, activation='relu'))  # Increased neurons
+model.add(Dropout(0.5))  # Added dropout to prevent overfitting
 model.add(Dense(num_classes, activation='softmax'))
 
 model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
 # Train the model
-model.fit(padded_sequences, np.array(training_labels), epochs=500, verbose=1)
+epochs = 1000  # Increased epochs
+model.fit(padded_sequences, np.array(training_labels), epochs=epochs)
 
 # Save the trained model in Keras format
 model.save('chat-model.keras')
