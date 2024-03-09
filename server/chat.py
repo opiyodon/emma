@@ -23,8 +23,10 @@ def get_response(user_message):
     result = model.predict(keras.preprocessing.sequence.pad_sequences(tokenizer.texts_to_sequences([user_message]), truncating='post', maxlen=20))  # Added maxlen for padding
     tag = lbl_encoder.inverse_transform([np.argmax(result)])
 
-    for i in data['intents']:
-        if i['tag'] == tag:
-            return np.random.choice(i['responses'])
-
-    return "I'm sorry, I didn't understand that. Could you please rephrase or provide more details?"  # Added a default response
+    # Check if the prediction is strong enough
+    if np.max(result) > 0.75:
+        for i in data['intents']:
+            if i['tag'] == tag:
+                return np.random.choice(i['responses'])
+    else:
+        return "I'm sorry, I didn't understand that. Could you please rephrase or provide more details?"  # Added a default response

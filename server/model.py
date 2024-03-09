@@ -35,7 +35,7 @@ lbl_encoder.fit(training_labels)
 training_labels = lbl_encoder.transform(training_labels)
 
 # Text preprocessing
-vocab_size = 2000  # Increased vocab_size
+vocab_size = 3000  # Increased vocab_size
 embedding_dim = 32  # Increased embedding_dim
 oov_token = "<OOV>"
 
@@ -58,7 +58,7 @@ model.add(Dense(num_classes, activation='softmax'))
 model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
 # Train the model
-epochs = 1000  # Increased epochs
+epochs = 2000  # Increased epochs
 model.fit(padded_sequences, np.array(training_labels), epochs=epochs)
 
 # Save the trained model in Keras format
