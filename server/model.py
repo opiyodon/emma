@@ -7,6 +7,7 @@ from tensorflow.keras.layers import Dense, Embedding, GlobalAveragePooling1D, Dr
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from sklearn.preprocessing import LabelEncoder
+from tensorflow.keras.callbacks import EarlyStopping
 
 # Load intents.json file
 with open('intents.json', encoding='utf-8') as file:
@@ -35,8 +36,8 @@ lbl_encoder.fit(training_labels)
 training_labels = lbl_encoder.transform(training_labels)
 
 # Text preprocessing
-vocab_size = 3000  # Increased vocab_size
-embedding_dim = 32  # Increased embedding_dim
+vocab_size = 5000  # Reduced vocab_size
+embedding_dim = 50  # Reduced embedding_dim
 oov_token = "<OOV>"
 
 tokenizer = Tokenizer(num_words=vocab_size, oov_token=oov_token)
@@ -49,17 +50,18 @@ padded_sequences = pad_sequences(sequences, truncating='post')
 model = Sequential()
 model.add(Embedding(vocab_size, embedding_dim))
 model.add(GlobalAveragePooling1D())
-model.add(Dense(32, activation='relu'))  # Increased neurons
-model.add(Dropout(0.5))  # Added dropout to prevent overfitting
-model.add(Dense(32, activation='relu'))  # Increased neurons
-model.add(Dropout(0.5))  # Added dropout to prevent overfitting
+model.add(Dense(50, activation='relu'))  # Reduced neurons
+model.add(Dropout(0.5))  # Kept dropout the same
+model.add(Dense(50, activation='relu'))  # Reduced neurons
+model.add(Dropout(0.5))  # Kept dropout the same
 model.add(Dense(num_classes, activation='softmax'))
 
 model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
 # Train the model
-epochs = 2000  # Increased epochs
-model.fit(padded_sequences, np.array(training_labels), epochs=epochs)
+epochs = 2000  # Reduced epochs
+early_stop = EarlyStopping(monitor='val_loss', patience=10)  # Added early stopping
+model.fit(padded_sequences, np.array(training_labels), epochs=epochs, callbacks=[early_stop])
 
 # Save the trained model in Keras format
 model.save('chat-model.keras')
