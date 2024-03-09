@@ -501,7 +501,7 @@ function sendMessage(event) {
 }
 
 // Function to load chat history from PHP
-function loadChatHistoryFromPHP() {
+/*function loadChatHistoryFromPHP() {
   const userProfile = userProfile;
 
   fetch("loadChatHistory.php", {
@@ -517,7 +517,7 @@ function loadChatHistoryFromPHP() {
       document.getElementById("message-box").outerHTML = data;
     })
     .catch(error => console.error('Error:', error));
-}
+}*/
 
 
 
@@ -567,7 +567,7 @@ function addChatToUI(/*chatHistoryDate, */message, isUser, timestamp, messageBox
   messageBox.scrollTop = messageBox.scrollHeight;
 
   // Load chat history from PHP after adding new message
-  loadChatHistoryFromPHP();
+  /*loadChatHistoryFromPHP();*/
 }
 
 // Function to save messages to the database via PHP
@@ -590,7 +590,7 @@ function saveToDatabase(userMessage, chatbotResponse) {
 document.getElementById("input-form").addEventListener("submit", sendMessage);
 
 // Load chat history from PHP on page load
-window.onload = loadChatHistoryFromPHP;
+/*window.onload = loadChatHistoryFromPHP;*/
 
 /* ====================================================================================================================
 ================================   CHAT AREA HEIGHT ADJUST   ================================================================
