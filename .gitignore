@@ -1,0 +1,5 @@
+# Ignore virtual environment
+server/emmaVirtualEnvironment/
+
+# Ignore Python bytecode cache
+server/__pycache__/
