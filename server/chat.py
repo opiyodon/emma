@@ -24,7 +24,7 @@ def get_response(user_message):
     tag = lbl_encoder.inverse_transform([np.argmax(result)])
 
     # Check if the prediction is strong enough
-    if np.max(result) > 0.85:  # Increased threshold
+    if np.max(result) > 0.75:
         for i in data['intents']:
             if i['tag'] == tag:
                 return np.random.choice(i['responses'])
