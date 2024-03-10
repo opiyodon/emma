@@ -1,3 +1,5 @@
+# Model for training bot
+
 import json
 import pickle
 import numpy as np
@@ -36,8 +38,8 @@ lbl_encoder.fit(training_labels)
 training_labels = lbl_encoder.transform(training_labels)
 
 # Text preprocessing
-vocab_size = 5000  # Reduced vocab_size
-embedding_dim = 50  # Reduced embedding_dim
+vocab_size = 5000  # Reduced vocab_size 
+embedding_dim = 50  # Reduced embedding_dim 
 oov_token = "<OOV>"
 
 tokenizer = Tokenizer(num_words=vocab_size, oov_token=oov_token)

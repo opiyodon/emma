@@ -1,3 +1,5 @@
+# Chat for actual functionality of bot
+
 import json
 import numpy as np
 import pickle
