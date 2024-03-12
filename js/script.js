@@ -20,39 +20,14 @@ document.addEventListener("DOMContentLoaded", function () {
       sidebarText.forEach(function (element) {
         element.style.display = "none";
       });
-      menuIcon.style.transform = "rotate(360deg)";
-      if (menuIcon.classList.contains("fa-xmark")) {
-        menuIcon.classList.remove("fa-xmark");
-        menuIcon.classList.add("fa-bars-staggered");
-      } else {
-        menuIcon.classList.remove("fa-bars-staggered");
-        menuIcon.classList.add("fa-xmark");
-      }
+      menuIcon.classList.remove("fa-xmark");
+      menuIcon.classList.add("fa-bars-staggered");
       // Show menuButtonSmall only on mobile
       if (window.innerWidth <= 768) {
         menuButtonSmall.style.display = "flex";
       } else {
         menuButtonSmall.style.display = "none";
       }
-      menuButtonSmall.addEventListener("click", function () {
-        sidebar.classList.add("sidebarOpen");
-        sidebar.classList.remove("sidebarClose");
-        localStorage.setItem("SIDEBARSTATE", "SideBarOpen");
-        logoSection.style.display = "flex";
-        aboutContainer.style.display = "flex";
-        sidebarText.forEach(function (element) {
-          element.style.display = "flex";
-        });
-        menuIcon.style.transform = "rotate(-360deg)";
-        if (menuIcon.classList.contains("fa-bars-staggered")) {
-          menuIcon.classList.remove("fa-bars-staggered");
-          menuIcon.classList.add("fa-xmark");
-        } else {
-          menuIcon.classList.remove("fa-xmark");
-          menuIcon.classList.add("fa-bars-staggered");
-        }
-        menuButtonSmall.style.display = "none";
-      });
     } else {
       sidebar.classList.add("sidebarOpen");
       sidebar.classList.remove("sidebarClose");
@@ -62,17 +37,11 @@ document.addEventListener("DOMContentLoaded", function () {
       sidebarText.forEach(function (element) {
         element.style.display = "flex";
       });
-      menuIcon.style.transform = "rotate(-360deg)";
-      if (menuIcon.classList.contains("fa-bars-staggered")) {
-        menuIcon.classList.remove("fa-bars-staggered");
-        menuIcon.classList.add("fa-xmark");
-      } else {
-        menuIcon.classList.remove("fa-xmark");
-        menuIcon.classList.add("fa-bars-staggered");
-      }
+      menuIcon.classList.remove("fa-bars-staggered");
+      menuIcon.classList.add("fa-xmark");
       // Show menuButtonSmall only on mobile
       if (window.innerWidth <= 768) {
-        menuButtonSmall.style.display = "flex";
+        menuButtonSmall.style.display = "none";
       } else {
         menuButtonSmall.style.display = "none";
       }
@@ -89,17 +58,11 @@ document.addEventListener("DOMContentLoaded", function () {
     sidebarText.forEach(function (element) {
       element.style.display = "flex";
     });
-    menuIcon.style.transform = "rotate(-360deg)";
-    if (menuIcon.classList.contains("fa-bars-staggered")) {
-      menuIcon.classList.remove("fa-bars-staggered");
-      menuIcon.classList.add("fa-xmark");
-    } else {
-      menuIcon.classList.remove("fa-xmark");
-      menuIcon.classList.add("fa-bars-staggered");
-    }
+    menuIcon.classList.remove("fa-bars-staggered");
+    menuIcon.classList.add("fa-xmark");
     // Show menuButtonSmall only on mobile
     if (window.innerWidth <= 768) {
-      menuButtonSmall.style.display = "flex";
+      menuButtonSmall.style.display = "none";
     } else {
       menuButtonSmall.style.display = "none";
     }
@@ -111,14 +74,8 @@ document.addEventListener("DOMContentLoaded", function () {
     sidebarText.forEach(function (element) {
       element.style.display = "none";
     });
-    menuIcon.style.transform = "rotate(360deg)";
-    if (menuIcon.classList.contains("fa-xmark")) {
-      menuIcon.classList.remove("fa-xmark");
-      menuIcon.classList.add("fa-bars-staggered");
-    } else {
-      menuIcon.classList.remove("fa-bars-staggered");
-      menuIcon.classList.add("fa-xmark");
-    }
+    menuIcon.classList.remove("fa-xmark");
+    menuIcon.classList.add("fa-bars-staggered");
     // Show menuButtonSmall only on mobile
     if (window.innerWidth <= 768) {
       menuButtonSmall.style.display = "flex";
@@ -133,18 +90,13 @@ document.addEventListener("DOMContentLoaded", function () {
       sidebarText.forEach(function (element) {
         element.style.display = "flex";
       });
-      menuIcon.style.transform = "rotate(-360deg)";
-      if (menuIcon.classList.contains("fa-bars-staggered")) {
-        menuIcon.classList.remove("fa-bars-staggered");
-        menuIcon.classList.add("fa-xmark");
-      } else {
-        menuIcon.classList.remove("fa-xmark");
-        menuIcon.classList.add("fa-bars-staggered");
-      }
+      menuIcon.classList.remove("fa-bars-staggered");
+      menuIcon.classList.add("fa-xmark");
       menuButtonSmall.style.display = "none";
     });
   }
 });
+
 
 /* ====================================================================================================================
 ================================   LIGHT MODE | DARK MODE   ================================================================
