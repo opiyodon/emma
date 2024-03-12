@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
       // Show menuButtonSmall only on mobile
       if (window.innerWidth <= 768) {
-        menuButtonSmall.style.display = "none";
+        menuButtonSmall.style.display = "flex";
       } else {
         menuButtonSmall.style.display = "none";
       }
@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     // Show menuButtonSmall only on mobile
     if (window.innerWidth <= 768) {
-      menuButtonSmall.style.display = "none";
+      menuButtonSmall.style.display = "flex";
     } else {
       menuButtonSmall.style.display = "none";
     }
