@@ -462,7 +462,12 @@ html {
   border: 1px solid var(--light_txt);
   padding: 5px 10px;
   background: transparent;
+  cursor: pointer;
   transition: all 0.3s ease-in-out;
+}
+
+.chatButton:hover {
+  background: var(--bg_dim2);
 }
 
 .clearText {

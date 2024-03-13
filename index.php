@@ -50,9 +50,9 @@
                     </div>
 
                     <div class="chatBox">
-                        <a class="chatButton">
-                            <i class="fa-regular fa-circle-question sidebarIcon"></i>
-                            <p class="sidebarText clearText">Who Is E.M.M.A ?</p>
+                        <a class="chatButton" id="clearChatsButton">
+                            <i class="fa-solid fa-trash-arrow-up sidebarIcon"></i>
+                            <p class="sidebarText clearText">Clear Chats</p>
                         </a>
                     </div>
 
@@ -61,7 +61,9 @@
                             <h4 class="about-title">E.M.M.A</h4>
                             <p class="about-subtitle">(Emotional Mental Health Assistant)</p>
                             <p class="about-txt">
-                                Your Trusted Emotional Support AI - A Companion for Your Mental Health Journey! Engage in personal and relatable conversations with our empathetic AI, designed to be your reliable confidant. Discover the power of our AI capabilities tailored to support your emotional well-being.
+                                Your Trusted Emotional Support AI - A Companion for Your Mental Health Journey! Engage in personal
+                                and relatable conversations with our empathetic AI, designed to be your reliable confidant. Discover
+                                the power of our AI capabilities tailored to support your emotional well-being.
                             </p>
                         </div>
                         <div class="about-card">
@@ -398,6 +400,9 @@
                 </section>
                 <!-- ChatView -->
                 <main id="chatView" class="chatView">
+                    <div class="menu-button-small" onclick="toggleSidebar()">
+                        <i id="menu-icon" class="fa-solid fa-bars-staggered menu-icon"></i>
+                    </div>
 
                     <?php
                     // Query to get the user's profile from the user table

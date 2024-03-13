@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const sidebarText = document.querySelectorAll(".sidebarText");
   const aboutContainer = document.getElementById("aboutContainer");
 
-  menuButton.addEventListener("click", function () {
+  function toggleSidebar() {
     if (sidebar.classList.contains("sidebarOpen")) {
       sidebar.classList.remove("sidebarOpen");
       sidebar.classList.add("sidebarClose");
@@ -20,39 +20,14 @@ document.addEventListener("DOMContentLoaded", function () {
       sidebarText.forEach(function (element) {
         element.style.display = "none";
       });
-      menuIcon.style.transform = "rotate(360deg)";
-      if (menuIcon.classList.contains("fa-xmark")) {
-        menuIcon.classList.remove("fa-xmark");
-        menuIcon.classList.add("fa-bars-staggered");
-      } else {
-        menuIcon.classList.remove("fa-bars-staggered");
-        menuIcon.classList.add("fa-xmark");
-      }
+      menuIcon.classList.remove("fa-xmark");
+      menuIcon.classList.add("fa-bars-staggered");
       // Show menuButtonSmall only on mobile
       if (window.innerWidth <= 768) {
         menuButtonSmall.style.display = "flex";
       } else {
         menuButtonSmall.style.display = "none";
       }
-      menuButtonSmall.addEventListener("click", function () {
-        sidebar.classList.add("sidebarOpen");
-        sidebar.classList.remove("sidebarClose");
-        localStorage.setItem("SIDEBARSTATE", "SideBarOpen");
-        logoSection.style.display = "flex";
-        aboutContainer.style.display = "flex";
-        sidebarText.forEach(function (element) {
-          element.style.display = "flex";
-        });
-        menuIcon.style.transform = "rotate(-360deg)";
-        if (menuIcon.classList.contains("fa-bars-staggered")) {
-          menuIcon.classList.remove("fa-bars-staggered");
-          menuIcon.classList.add("fa-xmark");
-        } else {
-          menuIcon.classList.remove("fa-xmark");
-          menuIcon.classList.add("fa-bars-staggered");
-        }
-        menuButtonSmall.style.display = "none";
-      });
     } else {
       sidebar.classList.add("sidebarOpen");
       sidebar.classList.remove("sidebarClose");
@@ -62,22 +37,14 @@ document.addEventListener("DOMContentLoaded", function () {
       sidebarText.forEach(function (element) {
         element.style.display = "flex";
       });
-      menuIcon.style.transform = "rotate(-360deg)";
-      if (menuIcon.classList.contains("fa-bars-staggered")) {
-        menuIcon.classList.remove("fa-bars-staggered");
-        menuIcon.classList.add("fa-xmark");
-      } else {
-        menuIcon.classList.remove("fa-xmark");
-        menuIcon.classList.add("fa-bars-staggered");
-      }
-      // Show menuButtonSmall only on mobile
-      if (window.innerWidth <= 768) {
-        menuButtonSmall.style.display = "none";
-      } else {
-        menuButtonSmall.style.display = "none";
-      }
+      menuIcon.classList.remove("fa-bars-staggered");
+      menuIcon.classList.add("fa-xmark");
+      // Always hide menuButtonSmall when sidebar is open
+      menuButtonSmall.style.display = "none";
     }
-  });
+  }
+
+  menuButton.addEventListener("click", toggleSidebar);
 
   // Check and apply the initial state based on local storage
   const initialState = localStorage.getItem("SIDEBARSTATE") || "SideBarClose";
@@ -89,20 +56,10 @@ document.addEventListener("DOMContentLoaded", function () {
     sidebarText.forEach(function (element) {
       element.style.display = "flex";
     });
-    menuIcon.style.transform = "rotate(-360deg)";
-    if (menuIcon.classList.contains("fa-bars-staggered")) {
-      menuIcon.classList.remove("fa-bars-staggered");
-      menuIcon.classList.add("fa-xmark");
-    } else {
-      menuIcon.classList.remove("fa-xmark");
-      menuIcon.classList.add("fa-bars-staggered");
-    }
-    // Show menuButtonSmall only on mobile
-    if (window.innerWidth <= 768) {
-      menuButtonSmall.style.display = "none";
-    } else {
-      menuButtonSmall.style.display = "none";
-    }
+    menuIcon.classList.remove("fa-bars-staggered");
+    menuIcon.classList.add("fa-xmark");
+    // Always hide menuButtonSmall when sidebar is open
+    menuButtonSmall.style.display = "none";
   } else if (initialState === "SideBarClose") {
     sidebar.classList.remove("sidebarOpen");
     sidebar.classList.add("sidebarClose");
@@ -111,38 +68,15 @@ document.addEventListener("DOMContentLoaded", function () {
     sidebarText.forEach(function (element) {
       element.style.display = "none";
     });
-    menuIcon.style.transform = "rotate(360deg)";
-    if (menuIcon.classList.contains("fa-xmark")) {
-      menuIcon.classList.remove("fa-xmark");
-      menuIcon.classList.add("fa-bars-staggered");
-    } else {
-      menuIcon.classList.remove("fa-bars-staggered");
-      menuIcon.classList.add("fa-xmark");
-    }
+    menuIcon.classList.remove("fa-xmark");
+    menuIcon.classList.add("fa-bars-staggered");
     // Show menuButtonSmall only on mobile
     if (window.innerWidth <= 768) {
       menuButtonSmall.style.display = "flex";
     } else {
       menuButtonSmall.style.display = "none";
     }
-    menuButtonSmall.addEventListener("click", function () {
-      sidebar.classList.add("sidebarOpen");
-      sidebar.classList.remove("sidebarClose");
-      logoSection.style.display = "flex";
-      aboutContainer.style.display = "flex";
-      sidebarText.forEach(function (element) {
-        element.style.display = "flex";
-      });
-      menuIcon.style.transform = "rotate(-360deg)";
-      if (menuIcon.classList.contains("fa-bars-staggered")) {
-        menuIcon.classList.remove("fa-bars-staggered");
-        menuIcon.classList.add("fa-xmark");
-      } else {
-        menuIcon.classList.remove("fa-xmark");
-        menuIcon.classList.add("fa-bars-staggered");
-      }
-      menuButtonSmall.style.display = "none";
-    });
+    menuButtonSmall.addEventListener("click", toggleSidebar);
   }
 });
 
@@ -682,3 +616,29 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+/* ====================================================================================================================
+================================   CLEAR CHATS  ======================================================
+==================================================================================================================== */
+document.addEventListener("DOMContentLoaded", function () {
+  document.getElementById("clearChatsButton").addEventListener("click", function () {
+      // Send an AJAX request to clear_chats.php
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "clear_chats.php", true);
+      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhr.onreadystatechange = function () {
+          if (xhr.readyState == 4 && xhr.status == 200) {
+              var response = JSON.parse(xhr.responseText);
+              if (response.success) {
+                  // Chats cleared successfully, you can update UI if needed
+                  console.log("Chats cleared successfully");
+                  // Reload the page or update UI as needed
+                  location.reload(); // Reload the page
+              } else {
+                  // Error occurred while clearing chats
+                  console.error("Error clearing chats: " + response.error);
+              }
+          }
+      };
+      xhr.send(); // Send the request
+  });
+});
