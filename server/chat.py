@@ -4,7 +4,6 @@ import json
 import numpy as np
 import pickle
 from tensorflow import keras
-from model import get_intent  # Import get_intent from your model.py
 from openai import OpenAI
 
 # Load intents.json file
@@ -26,17 +25,15 @@ with open('label_encoder.pickle', 'rb') as enc:
 client = OpenAI(api_key='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')
 
 def get_response(user_message, history):
-    intent, index_value = get_intent(user_message, history)  # Use your own get_intent function
-    
     # Find the corresponding intent in the intents file
     for i in data['intents']:
-        if i['tag'] == intent:
+        if i['tag'] == user_message:  # Use user_message as intent
             # If there are responses in the intents file, return a random one
             if i['responses']:
                 return random.choice(i['responses'])
     
     # If no response was found in the intents file or more information is needed, generate a response using OpenAI GPT-3
-    prompt = f"{intent} {history}"
+    prompt = f"{user_message} {history}"
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
