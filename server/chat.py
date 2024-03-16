@@ -1,5 +1,6 @@
 # Chat for actual functionality of bot
 
+import os
 import json
 import random
 import numpy as np
@@ -23,7 +24,7 @@ with open('label_encoder.pickle', 'rb') as enc:
     lbl_encoder = pickle.load(enc)
 
 # Initialize OpenAI GPT-3
-client = OpenAI(api_key='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')
+client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
 
 def get_response(user_message, history):
     # Find the corresponding intent in the intents file
