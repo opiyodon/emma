@@ -42,5 +42,5 @@ def get_response(user_message, history):
             {"role": "user", "content": prompt}
         ]
     )
-    # Access the text attribute of the ChatCompletion object
-    return response.choices[0].text  # Return the generated response
+    # Access the message attribute of the Choice object
+    return response.choices[0].message['content']  # Return the generated response
