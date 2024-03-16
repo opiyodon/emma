@@ -6,3 +6,4 @@ pandas
 numpy
 flask-cors
 openai
+python-dotenv

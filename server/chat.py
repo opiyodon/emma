@@ -7,6 +7,7 @@ import numpy as np
 import pickle
 from tensorflow import keras
 from openai import OpenAI
+from dotenv import load_dotenv
 
 # Load intents.json file
 with open('intents.json', encoding='utf-8') as file:
@@ -22,6 +23,9 @@ with open('tokenizer.pickle', 'rb') as handle:
 # Load label encoder object
 with open('label_encoder.pickle', 'rb') as enc:
     lbl_encoder = pickle.load(enc)
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Initialize OpenAI GPT-3
 client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
