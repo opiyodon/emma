@@ -4,7 +4,8 @@ import json
 import numpy as np
 import pickle
 from tensorflow import keras
-from tensorflow.keras.preprocessing.sequence import pad_sequences
+from model import get_intent  # Import get_intent from your model.py
+from openai import OpenAI
 
 # Load intents.json file
 with open('intents.json', encoding='utf-8') as file:
@@ -21,15 +22,26 @@ with open('tokenizer.pickle', 'rb') as handle:
 with open('label_encoder.pickle', 'rb') as enc:
     lbl_encoder = pickle.load(enc)
 
-def get_response(user_message):
-    result = model.predict(keras.preprocessing.sequence.pad_sequences(tokenizer.texts_to_sequences([user_message]), truncating='post', maxlen=20))  # Added maxlen for padding
-    tag = lbl_encoder.inverse_transform([np.argmax(result)])
+# Initialize OpenAI GPT-3
+client = OpenAI(api_key='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')
 
-    # Check if the prediction is strong enough
-    if np.max(result) > 0.60:  # Lowered the threshold
-        for i in data['intents']:
-            if i['tag'] == tag:
-                return np.random.choice(i['responses'])
-    else:
-        return "I'm sorry, I didn't understand that. Could you please rephrase or provide more details?"  # Added a default response
-
+def get_response(user_message, history):
+    intent, index_value = get_intent(user_message, history)  # Use your own get_intent function
+    
+    # Find the corresponding intent in the intents file
+    for i in data['intents']:
+        if i['tag'] == intent:
+            # If there are responses in the intents file, return a random one
+            if i['responses']:
+                return random.choice(i['responses'])
+    
+    # If no response was found in the intents file or more information is needed, generate a response using OpenAI GPT-3
+    prompt = f"{intent} {history}"
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": prompt}
+        ]
+    )
+    return response['choices'][0]['message']['content']  # Return the generated response

@@ -366,7 +366,7 @@ async function sendMessage(event) {
 
     // Function to load chat history from PHP
     async function loadChatHistoryFromPHP() {
-    
+
       return fetch("loadChatHistory.php", {
         method: 'POST',
         headers: {
@@ -381,6 +381,7 @@ async function sendMessage(event) {
 
     // Load chat history from PHP
     let history = await loadChatHistoryFromPHP();
+    console.log(history);
 
     // Check if there are existing message boxes
     const messageBoxes = document.querySelectorAll(".message-box");
@@ -496,9 +497,6 @@ function addChatToUI(/*chatHistoryDate, */message, isUser, timestamp, messageBox
   // Scroll to the bottom of the message container after adding loading dots
   chatWrapper.scrollTop = chatWrapper.scrollHeight;
   messageBox.scrollTop = messageBox.scrollHeight;
-
-  // Load chat history from PHP after adding new message
-  /*loadChatHistoryFromPHP();*/
 }
 
 // Function to save messages to the database via PHP
@@ -519,9 +517,6 @@ function saveToDatabase(userMessage, chatbotResponse) {
 
 // Add event listener to the form for sending messages
 document.getElementById("input-form").addEventListener("submit", sendMessage);
-
-// Load chat history from PHP on page load
-/*window.onload = loadChatHistoryFromPHP;*/
 
 /* ====================================================================================================================
 ================================   CHAT AREA HEIGHT ADJUST   ================================================================
