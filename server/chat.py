@@ -1,6 +1,7 @@
 # Chat for actual functionality of bot
 
 import json
+import random
 import numpy as np
 import pickle
 from tensorflow import keras
@@ -41,5 +42,5 @@ def get_response(user_message, history):
             {"role": "user", "content": prompt}
         ]
     )
-    return response.choices[0].message['content']  # Return the generated response
-
+    # Access the text attribute of the ChatCompletion object
+    return response.choices[0].text  # Return the generated response
