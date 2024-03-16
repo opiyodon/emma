@@ -35,7 +35,7 @@ def get_response(user_message, history):
             if i['responses']:
                 return random.choice(i['responses'])
     
-    # If no response was found in the intents file, generate a response using OpenAI GPT-3.5 Turbo
+    # If no response was found in the intents file or more information is needed, generate a response using OpenAI GPT-3.5 Turbo
     prompt = f"{user_message} {history}"
     response = client.create(
         model="gpt-3.5-turbo",
@@ -45,12 +45,4 @@ def get_response(user_message, history):
         ]
     )
     # Access the message attribute of the Choice object
-    message = response.choices[0].message['content']  # Generated response
-
-    # If the generated response is not informative enough, return a response from the intents file
-    if not message:  # If the response is empty
-        for i in data['intents']:
-            if i['responses']:
-                return random.choice(i['responses'])
-
-    return message
+    return response.choices[0].message['content']  # Return the generated response
