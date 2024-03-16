@@ -352,7 +352,7 @@ document.addEventListener("DOMContentLoaded", function () {
 ================================   Function to send a message   ======================================================
 ==================================================================================================================== */
 // Function to send a message
-function sendMessage(event) {
+async function sendMessage(event) {
   event.preventDefault();
   const messageInput = document.getElementById("message-input").value.trim();
 
@@ -363,6 +363,24 @@ function sendMessage(event) {
 
     // Get the current timestamp
     const timestamp = new Date().toISOString(); // Use ISO string for accurate timestamp
+
+    // Function to load chat history from PHP
+    async function loadChatHistoryFromPHP() {
+    
+      return fetch("loadChatHistory.php", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ userProfile: userProfile })
+      })
+        .then(response => response.json())
+        .then(history => JSON.stringify(history)) // Convert history to string format
+        .catch(error => console.error('Error:', error));
+    }
+
+    // Load chat history from PHP
+    let history = await loadChatHistoryFromPHP();
 
     // Check if there are existing message boxes
     const messageBoxes = document.querySelectorAll(".message-box");
@@ -398,7 +416,7 @@ function sendMessage(event) {
       headers: {
         "Content-Type": "application/json;charset=utf-8",
       },
-      body: JSON.stringify({ message: messageInput }),
+      body: JSON.stringify({ message: messageInput, history: history }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -433,27 +451,6 @@ function sendMessage(event) {
       .catch((error) => console.error("Error:", error));
   }
 }
-
-// Function to load chat history from PHP
-/*function loadChatHistoryFromPHP() {
-  const userProfile = userProfile;
-
-  fetch("loadChatHistory.php", {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ userProfile: userProfile })
-  })
-    .then(response => response.text())
-    .then(data => {
-      // Replace message-box content with loaded chat history
-      document.getElementById("message-box").outerHTML = data;
-    })
-    .catch(error => console.error('Error:', error));
-}*/
-
-
 
 // ADD CHAT TO UI
 function addChatToUI(/*chatHistoryDate, */message, isUser, timestamp, messageBox, userProfile) {
@@ -621,24 +618,24 @@ document.addEventListener("DOMContentLoaded", function () {
 ==================================================================================================================== */
 document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("clearChatsButton").addEventListener("click", function () {
-      // Send an AJAX request to clear_chats.php
-      var xhr = new XMLHttpRequest();
-      xhr.open("POST", "clear_chats.php", true);
-      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-      xhr.onreadystatechange = function () {
-          if (xhr.readyState == 4 && xhr.status == 200) {
-              var response = JSON.parse(xhr.responseText);
-              if (response.success) {
-                  // Chats cleared successfully, you can update UI if needed
-                  console.log("Chats cleared successfully");
-                  // Reload the page or update UI as needed
-                  location.reload(); // Reload the page
-              } else {
-                  // Error occurred while clearing chats
-                  console.error("Error clearing chats: " + response.error);
-              }
-          }
-      };
-      xhr.send(); // Send the request
+    // Send an AJAX request to clear_chats.php
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "clear_chats.php", true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState == 4 && xhr.status == 200) {
+        var response = JSON.parse(xhr.responseText);
+        if (response.success) {
+          // Chats cleared successfully, you can update UI if needed
+          console.log("Chats cleared successfully");
+          // Reload the page or update UI as needed
+          location.reload(); // Reload the page
+        } else {
+          // Error occurred while clearing chats
+          console.error("Error clearing chats: " + response.error);
+        }
+      }
+    };
+    xhr.send(); // Send the request
   });
 });
