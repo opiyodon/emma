@@ -3,3 +3,6 @@ server/emmaVirtualEnvironment/
 
 # Ignore Python bytecode cache
 server/__pycache__/
+
+# Ignore .env file
+.env
