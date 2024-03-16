@@ -45,4 +45,12 @@ def get_response(user_message, history):
         ]
     )
     # Access the message attribute of the Choice object
-    return response.choices[0].message['content']  # Return the generated response
+    message = response.choices[0].message['content']  # Generated response
+
+    # If the generated response is not accurately answering the user query, return a response from the intents file
+    if message != user_message:  # If the response is not accurately answering the user query
+        for i in data['intents']:
+            if i['responses']:
+                return random.choice(i['responses'])
+
+    return message
