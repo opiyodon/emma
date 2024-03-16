@@ -222,7 +222,8 @@
                 "I am sad 😢",
                 "I feel so lonely 😢",
                 "I feel empty 😢",
-                "I don't have anyone 😢"
+                "I don't have anyone 😢",
+                "I'm feeling sad"
             ],
             "responses": [
                 "I'm sorry to hear that. I'm here for you. Talking about it might help. So, tell me why do you think you're feeling this way? 😢",
@@ -440,11 +441,8 @@
                 "I am going to commit suicide 😢"
             ],
             "responses": [
-                "I'm very sorry to hear that. It's important to reach out for help. Can you please share your current location with me so I can provide you with contacts of therapists nearby? 😢",
-                "I'm concerned about you. Could you please share your current location so I can assist you in finding help? 😢",
-                "I understand this is a difficult time. Could you please provide your current location so I can help you find the support you need? 😢",
-                "It sounds like you're going through a lot. Please remember that there are people who care about you and want to help. Can you please provide your location so I can assist you further? 😢",
-                "Please, don't hurt yourself. Can you tell me where you are so I can get you help? 😢"
+                "I am truly sorry to hear that you are feeling this way. It is essential to reach out to someone who can offer real help, such as a friend, family member, or a mental health professional. You do not have to face these feelings alone, and there are people who care about you. Please consider contacting a crisis hotline or seeking professional support. 🌟Remember, you are not alone, and there are resources available to support you during difficult times. Take care.💙",
+                "I understand that you are feeling overwhelmed, but I want to emphasize that death is not the solution. You are not alone in this struggle, and there are people who care about you. Reach out to someone—a friend, family member, or a mental health professional. They can listen and provide support. You matter, and there is hope even in the darkest moments. 💙"
             ]
         },
         {
