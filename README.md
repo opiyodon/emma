@@ -64,8 +64,8 @@ Install the necessary libraries using:
 pip install -r requirements.txt
 ```
 Start Flask server and run the app using:
-```bash
-python app.py
+```bashpython app.py
+
 ```
 Train the model using:
 ```bash
