@@ -22,7 +22,7 @@ with open('label_encoder.pickle', 'rb') as enc:
     lbl_encoder = pickle.load(enc)
 
 # Initialize OpenAI GPT-3
-client = OpenAI(api_key='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')
+client = OpenAI(api_key='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')
 
 def get_response(user_message, history):
     # Find the corresponding intent in the intents file
@@ -41,4 +41,5 @@ def get_response(user_message, history):
             {"role": "user", "content": prompt}
         ]
     )
-    return response['choices'][0]['message']['content']  # Return the generated response
+    return response.choices[0].message['content']  # Return the generated response
+
