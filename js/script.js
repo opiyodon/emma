@@ -381,7 +381,6 @@ async function sendMessage(event) {
 
     // Load chat history from PHP
     let history = await loadChatHistoryFromPHP();
-    console.log(history);
 
     // Check if there are existing message boxes
     const messageBoxes = document.querySelectorAll(".message-box");
