@@ -1,12 +1,9 @@
-# Chat for actual functionality of bot
-
 import os
 import json
 import random
-import numpy as np
 import pickle
 from tensorflow import keras
-from openai import OpenAI
+from openai import ChatCompletion
 from dotenv import load_dotenv
 
 # Load intents.json file
@@ -27,8 +24,8 @@ with open('label_encoder.pickle', 'rb') as enc:
 # Load environment variables from .env file
 load_dotenv()
 
-# Initialize OpenAI GPT-3
-client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+# Initialize OpenAI GPT-3.5 Turbo
+client = ChatCompletion(api_key=os.getenv('OPENAI_API_KEY'))
 
 def get_response(user_message, history):
     # Find the corresponding intent in the intents file
@@ -38,9 +35,9 @@ def get_response(user_message, history):
             if i['responses']:
                 return random.choice(i['responses'])
     
-    # If no response was found in the intents file or more information is needed, generate a response using OpenAI GPT-3
+    # If no response was found in the intents file or more information is needed, generate a response using OpenAI GPT-3.5 Turbo
     prompt = f"{user_message} {history}"
-    response = client.chat.completions.create(
+    response = client.create(
         model="gpt-3.5-turbo",
         messages=[
             {"role": "system", "content": "You are a helpful assistant."},
