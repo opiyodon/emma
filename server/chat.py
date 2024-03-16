@@ -23,7 +23,7 @@ with open('label_encoder.pickle', 'rb') as enc:
     lbl_encoder = pickle.load(enc)
 
 # Initialize OpenAI GPT-3
-client = OpenAI(api_key='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')
+client = OpenAI(api_key='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')
 
 def get_response(user_message, history):
     # Find the corresponding intent in the intents file
