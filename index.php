@@ -320,14 +320,15 @@
                                                 $password = mysqli_real_escape_string($conn, $_POST['password']);
 
                                                 // Verify if the provided password matches the user's password
-                                                $sql = "SELECT password FROM user WHERE id = $user_id";
+                                                $sql = "SELECT password, profile_picture FROM user WHERE id = $user_id";
                                                 $res = mysqli_query($conn, $sql);
 
                                                 // Check if the query executed successfully
                                                 if ($res) {
-                                                    // Fetch the hashed password from the result
+                                                    // Fetch the hashed password and profile picture path from the result
                                                     $row = mysqli_fetch_assoc($res);
                                                     $databasePassword = $row['password'];
+                                                    $profilePicturePath = $row['profile_picture'];
 
                                                     // Encrypt the provided password using MD5
                                                     $password = md5($password);
@@ -341,6 +342,12 @@
                                                         if (mysqli_query($conn, $sql_delete)) {
                                                             // Account deleted successfully
                                                             $_SESSION['deleteAccount'] = "<div class='SUCCESS'>Account Deleted Successfully</div>";
+
+                                                            // Delete the profile picture file if it's not the default picture
+                                                            if (file_exists($profilePicturePath) && $profilePicturePath != 'img/userProfile/No-Profile.png') {
+                                                                unlink($profilePicturePath);
+                                                            }
+
                                                             // Redirect to login page
                                                             header('location:' . SITEURL_USER . 'login.php');
                                                         } else {
@@ -365,10 +372,10 @@
                 <main id="chatView" class="chatView">
 
                     <?php
-                        if (isset ($_SESSION['login'])) {
-                            echo $_SESSION['login'];
-                            unset($_SESSION['login']);
-                        }
+                    if (isset ($_SESSION['login'])) {
+                        echo $_SESSION['login'];
+                        unset($_SESSION['login']);
+                    }
                     ?>
 
                     <div class="menu-button-small" onclick="toggleSidebar()">
