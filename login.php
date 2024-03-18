@@ -11,9 +11,9 @@
         <h1>Login</h1>
 
         <?php
-            if (isset($_SESSION['no-login-message'])) {
-                echo $_SESSION['no-login-message'];
-                unset($_SESSION['no-login-message']);
+            if (isset($_SESSION['login2'])) {
+                echo $_SESSION['login2'];
+                unset($_SESSION['login2']);
             }
 
             if (isset($_SESSION['message2'])) {
@@ -88,7 +88,7 @@ if (isset($_POST['submit'])) {
         $user_id = $row['id'];
         $_SESSION['login'] = "<div class='successContainer'>
         <div class='SUCCESSBOX'>
-        <div class='SUCCESS2'>Welcome back $username</div>
+        <div class='SUCCESS2'>Welcome back $username 👋🏽</div>
       </div>
       </div>";
         $_SESSION['user'] = $username; // To check whether the user is logged in or not and logout unsets it
@@ -99,7 +99,7 @@ if (isset($_POST['submit'])) {
         ob_end_flush();
     } else {
         // Failed to login
-        $_SESSION['login'] = "<div class='ERROR'>Username and Password did not match</div>";
+        $_SESSION['login2'] = "<div class='ERROR'>Username and Password did not match</div>";
         // Redirect back to login page
         header('location:' . SITEURL_USER . 'login.php');
         ob_end_flush();

@@ -3,6 +3,7 @@ include_once 'config/constants.php';
 
 // Get the user ID from the session
 $user_id = $_SESSION['user_id'];
+$userProfile = 'userProfile';
 
 // Fetch chat history from the database
 $sql = "SELECT * FROM chat_history WHERE user_id = $user_id ORDER BY chat_date ASC, timestamp ASC";
