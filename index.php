@@ -218,8 +218,8 @@
                                                         header('location:' . SITEURL_USER . 'index.php');
                                                         ob_end_flush();
                                                     } else {
-                                                        // Remove the previous image if it exists
-                                                        if ($userProfile != "") {
+                                                        // Remove the previous image if it exists and is not the default
+                                                        if ($userProfile != "" && $userProfile != "No-Profile.png") {
                                                             $remove_path = "img/userProfile/" . $userProfile;
                                                             if (file_exists($remove_path)) {
                                                                 unlink($remove_path);
@@ -320,7 +320,7 @@
                                                 $password = mysqli_real_escape_string($conn, $_POST['password']);
 
                                                 // Verify if the provided password matches the user's password
-                                                $sql = "SELECT password, profile_picture FROM user WHERE id = $user_id";
+                                                $sql = "SELECT password, userProfile FROM user WHERE id = $id";
                                                 $res = mysqli_query($conn, $sql);
 
                                                 // Check if the query executed successfully
@@ -328,7 +328,7 @@
                                                     // Fetch the hashed password and profile picture path from the result
                                                     $row = mysqli_fetch_assoc($res);
                                                     $databasePassword = $row['password'];
-                                                    $profilePicturePath = $row['profile_picture'];
+                                                    $userProfile = $row['userProfile'];
 
                                                     // Encrypt the provided password using MD5
                                                     $password = md5($password);
@@ -336,7 +336,7 @@
                                                     // Verify if the provided password matches the hashed password
                                                     if ($password == $databasePassword) {
                                                         // Password matched, proceed to delete account
-                                                        $sql_delete = "DELETE FROM user WHERE id = $user_id";
+                                                        $sql_delete = "DELETE FROM user WHERE id = $id";
 
                                                         // Execute the delete query
                                                         if (mysqli_query($conn, $sql_delete)) {
@@ -344,8 +344,11 @@
                                                             $_SESSION['deleteAccount'] = "<div class='SUCCESS'>Account Deleted Successfully</div>";
 
                                                             // Delete the profile picture file if it's not the default picture
-                                                            if (file_exists($profilePicturePath) && $profilePicturePath != 'img/userProfile/No-Profile.png') {
-                                                                unlink($profilePicturePath);
+                                                            if ($userProfile != "" && $userProfile != "No-Profile.png") {
+                                                                $remove_path = "img/userProfile/" . $userProfile;
+                                                                if (file_exists($remove_path)) {
+                                                                    unlink($remove_path);
+                                                                }
                                                             }
 
                                                             // Redirect to login page
