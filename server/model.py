@@ -62,8 +62,8 @@ model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=
 
 # Train the model
 epochs = 5000  # Increased epochs
-early_stop = EarlyStopping(monitor='val_loss', patience=10)  # Added early stopping
-model.fit(padded_sequences, np.array(training_labels), epochs=epochs, callbacks=[early_stop], validation_split=0.1)  # 10% of the training data will be used for validation
+early_stop = EarlyStopping(monitor='loss', patience=10)  # Added early stopping
+model.fit(padded_sequences, np.array(training_labels), epochs=epochs, callbacks=[early_stop])
 
 # Save the trained model in Keras format
 model.save('chat-model.keras')
