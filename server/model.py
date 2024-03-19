@@ -3,13 +3,13 @@
 import json
 import pickle
 import numpy as np
-import tensorflow as tf
+from sklearn.model_selection import train_test_split
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Embedding, GlobalAveragePooling1D, Dropout
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from sklearn.preprocessing import LabelEncoder
-from tensorflow.keras.callbacks import EarlyStopping
+from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 
 # Load intents.json file
 with open('intents.json', encoding='utf-8') as file:
@@ -38,8 +38,8 @@ lbl_encoder.fit(training_labels)
 training_labels = lbl_encoder.transform(training_labels)
 
 # Text preprocessing
-vocab_size = 10000  # Increased vocab_size 
-embedding_dim = 128  # Increased embedding_dim 
+vocab_size = 10000
+embedding_dim = 128
 oov_token = "<OOV>"
 
 tokenizer = Tokenizer(num_words=vocab_size, oov_token=oov_token)
@@ -48,25 +48,26 @@ word_index = tokenizer.word_index
 sequences = tokenizer.texts_to_sequences(training_sentences)
 padded_sequences = pad_sequences(sequences, truncating='post')
 
+# Splitting data into training and validation sets
+train_sequences, val_sequences, train_labels, val_labels = train_test_split(padded_sequences, training_labels, test_size=0.2)
+
 # Model
 model = Sequential()
 model.add(Embedding(vocab_size, embedding_dim))
 model.add(GlobalAveragePooling1D())
-model.add(Dense(128, activation='relu'))  # Increased neurons
-model.add(Dropout(0.5))  # Kept dropout the same
-model.add(Dense(128, activation='relu'))  # Increased neurons
-model.add(Dropout(0.5))  # Kept dropout the same
+model.add(Dense(128, activation='relu'))
+model.add(Dropout(0.5))
+model.add(Dense(128, activation='relu'))
+model.add(Dropout(0.5))
 model.add(Dense(num_classes, activation='softmax'))
 
 model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
 # Train the model
-epochs = 5000  # Increased epochs
-early_stop = EarlyStopping(monitor='val_loss', patience=10)  # Added early stopping
-model.fit(padded_sequences, np.array(training_labels), epochs=epochs, callbacks=[early_stop])
-
-# Save the trained model in Keras format
-model.save('chat-model.keras')
+epochs = 5000
+early_stop = EarlyStopping(monitor='val_loss', patience=10)
+model_checkpoint = ModelCheckpoint('chat-model.keras', save_best_only=True, monitor='val_loss', mode='min')
+model.fit(train_sequences, np.array(train_labels), validation_data=(val_sequences, np.array(val_labels)), epochs=epochs, callbacks=[early_stop, model_checkpoint])
 
 # Save the fitted tokenizer
 with open('tokenizer.pickle', 'wb') as handle:

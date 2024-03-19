@@ -2,9 +2,11 @@ import os
 import json
 import random
 import pickle
+import numpy as np
 from tensorflow import keras
 from openai import ChatCompletion
 from dotenv import load_dotenv
+from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 # Load intents.json file
 with open('intents.json', encoding='utf-8') as file:
@@ -28,9 +30,16 @@ load_dotenv()
 client = ChatCompletion(api_key=os.getenv('OPENAI_API_KEY'))
 
 def get_response(user_message, history):
+    # Preprocess user_message
+    padded_sequence = pad_sequences(tokenizer.texts_to_sequences([user_message]))
+    
+    # Predict intent of user_message using trained model
+    prediction = model.predict(np.array(padded_sequence))
+    tag = lbl_encoder.inverse_transform([np.argmax(prediction)])
+
     # Find the corresponding intent in the intents file
     for i in data['intents']:
-        if i['tag'] == user_message:  # Use user_message as intent
+        if i['tag'] == tag:
             # If there are responses in the intents file, return a random one
             if i['responses']:
                 return random.choice(i['responses'])
