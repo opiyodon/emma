@@ -15,3 +15,5 @@ server/tokenizer.pickle
 
 # Ignore .env file
 .env
+
+#  IGNORING FILES
