@@ -42,9 +42,13 @@ def get_response(user_message, history):
         if i['tag'] == tag:
             # If there are responses in the intents file, return a random one
             if i['responses']:
-                return random.choice(i['responses'])
-    
-    # If no response was found in the intents file or more information is needed, generate a response using OpenAI GPT-3.5 Turbo
+                response = random.choice(i['responses'])
+                return response
+
+    # If no response was found in the intents file, generate a response using OpenAI GPT-3.5 Turbo
+    return generate_response_with_openai(user_message, history)
+
+def generate_response_with_openai(user_message, history):
     prompt = f"{user_message} {history}"
     response = client.create(
         model="gpt-3.5-turbo",
