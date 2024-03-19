@@ -366,16 +366,13 @@ async function sendMessage(event) {
 
     // Function to load chat history from PHP
     async function loadChatHistoryFromPHP() {
-
-      return fetch("loadChatHistory.php", {
+      return fetch("loadChatHistoryForJavascript.php", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ userProfile: userProfile })
+        }
       })
-        .then(response => response.json())
-        .then(history => JSON.stringify(history)) // Convert history to string format
+        .then(response => response.json()) // Parse the JSON response
         .catch(error => console.error('Error:', error));
     }
 
@@ -409,6 +406,9 @@ async function sendMessage(event) {
       isUser: true,
     });
     localStorage.setItem("chatHistory", JSON.stringify(newChatHistory));
+
+    // Log the history being sent to the Flask app
+    console.log("History being sent to Flask app: ", history);
 
     // Send message to Flask backend
     fetch("http://localhost:8000/get-response", {

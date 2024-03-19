@@ -1,8 +1,17 @@
+# Ignore Python bytecode cache
+server/__pycache__/
+
 # Ignore virtual environment
 server/emmaVirtualEnvironment/
 
-# Ignore Python bytecode cache
-server/__pycache__/
+# Ignore chat-model.keras
+server/chat-model.keras
+
+# Ignore label_encoder.pickle
+server/label_encoder.pickle
+
+# Ignore tokenizer.pickle
+server/tokenizer.pickle
 
 # Ignore .env file
 .env

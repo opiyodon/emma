@@ -190,13 +190,13 @@
                                             <?php
                                             // Process the Value from Form and Save in Database
                                             // Check whether the updateProfile button is clicked or not
-                                            if (isset($_POST['updateProfile'])) {
+                                            if (isset ($_POST['updateProfile'])) {
                                                 // Button Clicked
                                 
                                                 // 1. Upload the image if selected
                                 
                                                 // Check whether upload button is clicked or not
-                                                if (isset($_FILES['userProfile']['name']) && !empty($_FILES['userProfile']['name'])) {
+                                                if (isset ($_FILES['userProfile']['name']) && !empty ($_FILES['userProfile']['name'])) {
                                                     // Get the details of the selected image
                                                     $image_name = $_FILES['userProfile']['name'];
 
@@ -214,17 +214,12 @@
 
                                                     // Check whether image uploaded or not
                                                     if (!$upload) {
-                                                        $_SESSION['uploadProfile'] = "<div class='errorContainer'>
-                                <div class='ERRORBOX'>
-                                    <div class='ERROR2'>Failed to Upload Image</div>
-                                </div>
-                            </div>";
                                                         //redirect to Home Page
                                                         header('location:' . SITEURL_USER . 'index.php');
                                                         ob_end_flush();
                                                     } else {
-                                                        // Remove the previous image if it exists
-                                                        if ($userProfile != "") {
+                                                        // Remove the previous image if it exists and is not the default
+                                                        if ($userProfile != "" && $userProfile != "No-Profile.png") {
                                                             $remove_path = "img/userProfile/" . $userProfile;
                                                             if (file_exists($remove_path)) {
                                                                 unlink($remove_path);
@@ -236,20 +231,10 @@
                                                         $res = mysqli_query($conn, $sql);
 
                                                         if ($res) {
-                                                            $_SESSION['updateProfile'] = "<div class='successContainer'>
-                                  <div class='SUCCESSBOX'>
-                                      <div class='SUCCESS2'>Profile Picture Updated Successfully</div>
-                                  </div>
-                              </div>";
                                                             //redirect to Home Page
                                                             header('location:' . SITEURL_USER . 'index.php');
                                                             ob_end_flush();
                                                         } else {
-                                                            $_SESSION['updateProfile'] = "<div class='errorContainer'>
-                                  <div class='ERRORBOX'>
-                                      <div class='ERROR2'>Failed to Update Profile Picture</div>
-                                  </div>
-                              </div>";
                                                             //redirect to Home Page
                                                             header('location:' . SITEURL_USER . 'index.php');
                                                             ob_end_flush();
@@ -280,7 +265,7 @@
                                             <!-- =========== UPDATE PASSWORD =========== -->
                                             <?php
                                             // Check whether the updatePassword button is clicked or not
-                                            if (isset($_POST['updatePassword'])) {
+                                            if (isset ($_POST['updatePassword'])) {
                                                 // Get new password and confirm password from the form
                                                 $newPassword = $_POST['newPassword'];
                                                 $confirmPassword = $_POST['confirmPassword'];
@@ -297,20 +282,10 @@
 
                                                     // Check if query executed successfully
                                                     if ($res) {
-                                                        $_SESSION['updatePassword'] = "<div class='successContainer'>
-                                <div class='SUCCESSBOX'>
-                                    <div class='SUCCESS2'>Password Updated Successfully</div>
-                                </div>
-                            </div>";
                                                         //redirect to Home Page
                                                         header('location:' . SITEURL_USER . 'index.php');
                                                         ob_end_flush();
                                                     } else {
-                                                        $_SESSION['updatePassword'] = "<div class='errorContainer'>
-                                <div class='ERRORBOX'>
-                                    <div class='ERROR2'>Failed to Update Password</div>
-                                </div>
-                            </div>";
                                                         //redirect to Home Page
                                                         header('location:' . SITEURL_USER . 'index.php');
                                                         ob_end_flush();
@@ -340,19 +315,20 @@
 
                                             <?php
                                             // Process the value from the form and delete the user from the database
-                                            if (isset($_POST['deleteAccount'])) {
+                                            if (isset ($_POST['deleteAccount'])) {
                                                 // Sanitize the input to prevent SQL injection
                                                 $password = mysqli_real_escape_string($conn, $_POST['password']);
 
                                                 // Verify if the provided password matches the user's password
-                                                $sql = "SELECT password FROM user WHERE id = $user_id";
+                                                $sql = "SELECT password, userProfile FROM user WHERE id = $id";
                                                 $res = mysqli_query($conn, $sql);
 
                                                 // Check if the query executed successfully
                                                 if ($res) {
-                                                    // Fetch the hashed password from the result
+                                                    // Fetch the hashed password and profile picture path from the result
                                                     $row = mysqli_fetch_assoc($res);
                                                     $databasePassword = $row['password'];
+                                                    $userProfile = $row['userProfile'];
 
                                                     // Encrypt the provided password using MD5
                                                     $password = md5($password);
@@ -360,32 +336,29 @@
                                                     // Verify if the provided password matches the hashed password
                                                     if ($password == $databasePassword) {
                                                         // Password matched, proceed to delete account
-                                                        $sql_delete = "DELETE FROM user WHERE id = $user_id";
+                                                        $sql_delete = "DELETE FROM user WHERE id = $id";
 
                                                         // Execute the delete query
                                                         if (mysqli_query($conn, $sql_delete)) {
                                                             // Account deleted successfully
                                                             $_SESSION['deleteAccount'] = "<div class='SUCCESS'>Account Deleted Successfully</div>";
+
+                                                            // Delete the profile picture file if it's not the default picture
+                                                            if ($userProfile != "" && $userProfile != "No-Profile.png") {
+                                                                $remove_path = "img/userProfile/" . $userProfile;
+                                                                if (file_exists($remove_path)) {
+                                                                    unlink($remove_path);
+                                                                }
+                                                            }
+
                                                             // Redirect to login page
                                                             header('location:' . SITEURL_USER . 'login.php');
                                                         } else {
-                                                            // Failed to delete account
-                                                            $_SESSION['deleteAccount2'] = "<div class='errorContainer'>
-                                <div class='ERRORBOX'>
-                                    <div class='ERROR2'>Failed to Delete Account</div>
-                                </div>
-                            </div>";
                                                             // Redirect to index page or wherever appropriate
                                                             header('location:' . SITEURL_USER . 'index.php');
                                                         }
                                                     }
                                                 } else {
-                                                    // Error in executing query
-                                                    $_SESSION['deleteAccount2'] = "<div class='errorContainer'>
-                            <div class='ERRORBOX'>
-                                <div class='ERROR2'>Error fetching user data</div>
-                            </div>
-                        </div>";
                                                     // Redirect to index page or wherever appropriate
                                                     header('location:' . SITEURL_USER . 'index.php');
                                                 }
@@ -400,6 +373,14 @@
                 </section>
                 <!-- ChatView -->
                 <main id="chatView" class="chatView">
+
+                    <?php
+                    if (isset ($_SESSION['login'])) {
+                        echo $_SESSION['login'];
+                        unset($_SESSION['login']);
+                    }
+                    ?>
+
                     <div class="menu-button-small" onclick="toggleSidebar()">
                         <i id="menu-icon" class="fa-solid fa-bars-staggered menu-icon"></i>
                     </div>
