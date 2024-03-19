@@ -62,7 +62,7 @@ model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=
 
 # Train the model
 epochs = 5000  # Increased epochs
-early_stop = EarlyStopping(monitor='loss', patience=10)  # Added early stopping
+early_stop = EarlyStopping(monitor='loss', patience=500)  # Added early stopping
 model.fit(padded_sequences, np.array(training_labels), epochs=epochs, callbacks=[early_stop])
 
 # Save the trained model in Keras format
