@@ -30,22 +30,18 @@ load_dotenv()
 client = ChatCompletion(api_key=os.getenv('OPENAI_API_KEY'))
 
 def get_response(user_message, history):
-    # Preprocess user_message
-    padded_sequence = pad_sequences(tokenizer.texts_to_sequences([user_message]))
-    
-    # Predict intent of user_message using trained model
-    prediction = model.predict(np.array(padded_sequence))
-    tag = lbl_encoder.inverse_transform([np.argmax(prediction)])
+    # Load intents
+    with open('intents.json') as json_file:
+        data = json.load(json_file)
 
-    # Find the corresponding intent in the intents file
-    for i in data['intents']:
-        if i['tag'] == tag:
-            # If there are responses in the intents file, return a random one
-            if i['responses']:
-                response = random.choice(i['responses'])
-                return response
+    # Check if user_message matches any pattern in intents.json
+    for intent in data['intents']:
+        for pattern in intent['patterns']:
+            if re.search(pattern, user_message, re.IGNORECASE):
+                # If there's a match, return a random response for the corresponding intent
+                return random.choice(intent['responses'])
 
-    # If no response was found in the intents file, generate a response using OpenAI GPT-3.5 Turbo
+    # If no match was found in intents.json, generate a response using OpenAI
     return generate_response_with_openai(user_message, history)
 
 def generate_response_with_openai(user_message, history):
