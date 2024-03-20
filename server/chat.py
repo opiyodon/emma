@@ -48,10 +48,10 @@ def get_response(user_message, history):
                     return response
 
     # If no matching pattern was found in the intents file, generate a response using OpenAI GPT-3.5 Turbo
-    return generate_response_with_openai(user_message, history)
+    return generate_response_with_openai(user_message)
 
-def generate_response_with_openai(user_message, history):
-    prompt = f"{user_message} {history}"
+def generate_response_with_openai(user_message):
+    prompt = f"{user_message}"
     response = client.create(
         model="gpt-3.5-turbo",
         messages=[

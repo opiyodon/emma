@@ -170,12 +170,12 @@
         {
             "tag": "creation",
             "patterns": [
-                "Who created you? 🧠",
+                "Who created you?",
                 "who created u",
-                "How were you made? 🧠",
+                "How were you made?",
                 "how were u made",
                 "how were u created",
-                "How were you created? 🧠"
+                "How were you created?"
             ],
             "responses": [
                 "I was created by Opiyo Don Artkins, Glory Kinya, Emmanuel Oketch, and Tito Kilonzo, students from Kabarak University doing an IT course. 🤖I was then trained on a text dataset using Deep Learning & Natural Language Processing techniques. 🧠The real question is, Who created you? 🤔"
