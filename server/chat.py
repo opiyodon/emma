@@ -40,12 +40,14 @@ def get_response(user_message, history):
     # Find the corresponding intent in the intents file
     for i in data['intents']:
         if i['tag'] == tag:
-            # If there are responses in the intents file, return a random one
-            if i['responses']:
-                response = random.choice(i['responses'])
-                return response
+            # Check if user_message matches any pattern in the intent
+            if user_message in i['patterns']:
+                # If there are responses in the intents file, return a random one
+                if i['responses']:
+                    response = random.choice(i['responses'])
+                    return response
 
-    # If no response was found in the intents file, generate a response using OpenAI GPT-3.5 Turbo
+    # If no matching pattern was found in the intents file, generate a response using OpenAI GPT-3.5 Turbo
     return generate_response_with_openai(user_message, history)
 
 def generate_response_with_openai(user_message, history):
