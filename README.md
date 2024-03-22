@@ -1,6 +1,6 @@
 # E.M.M.A 
 #### `- MENTAL HEALTH CHATBOT`
-![EmmaAI Logo](http://localhost/emma/img/emma.jpg)
+![EmmaAI Logo](img/emma.jpg)
 
 **E.m.m.a** is a conversational agent designed to mimic a psychotherapist in order to provide emotional support to people with anxiety & depression.
 At its core, E.m.m.a is a chatbot trained on a text dataset using Deep Learning and Natural Language Processing techniques. 
@@ -30,21 +30,35 @@ Other Technologies
 -PANDAS
 -SCIKITLEARN
 -FLASK
+-OPENAI API
 ```
 
 # GET STARTED
 
 First, clone this repository. Ensure you have Python and Pip installed in your machine. Pip comes pre-installed when you install python. Make sure you check the 
-- [x] checkbox in the installer to automatically add python executable file path to the environment variables path.
+- [ x ] checkbox in the installer to automatically add python executable file path to the environment variables path.
 
 ### HOW TO RUN THIS REPOSITORY?
-Open powershel and go to the folder directory by first going into the C drive using this command :
+First Clone this repo into your machine by opening powershell if your using Windows OS or terminal if your using Linux or MacOS.
+
+Make sure you have `xampp` installed in your machine.
+
+Open powershell and paste this command :
 ```bash
-cd ../../../
+cd ../../../xampp/htdocs
 ```
 then :
+
+clone the repo by copying this command into powershell
+
 ```bash
-cd xampp >> cd htdocs >> cd emma >> cd server
+git clone https://github.com/opiyodon/emma.git
+```
+
+This will clone the repo into your machine and now you can navigate into the folder and create a virtual environment:
+
+```bash
+cd emma/server
 ```
 
 If you are using Windows OS, bypass powershell default security that prevents runing python scripts using:
@@ -63,10 +77,6 @@ Install the necessary libraries using:
 ```bash
 pip install -r requirements.txt
 ```
-Start Flask server and run the app using:
-```bashpython app.py
-
-```
 Train the model using:
 ```bash
 python model.py
@@ -75,11 +85,20 @@ Now run chat using:
 ```bash
 python chat.py
 ```
+Start Flask server and run the app using:
+```bash
+python app.py
+```
 
 You can modify E.m.m.a by inserting your own text in the `intents.json` file.
 
+Start Xampp server buy searching XAMPP control panel and starting `Apache` and `MySQL`
+
+Go to your browser and create a database by going to this address and following the steps below;
+
+
 # A CONVERSATION WITH E.M.M.A
-![sample-chat](http://localhost/emma/img/chat.jpg)
+![sample-chat](img/chat.jpg)
 
 # DATASET
 https://www.kaggle.com/datasets/elvis23/mental-health-conversational-data
